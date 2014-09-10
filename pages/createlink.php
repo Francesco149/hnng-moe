@@ -22,7 +22,11 @@ if (!isset($_POST['hnngUrl'])) {
 ?>
 <h1>Oreru&#126;</h1>
 <p class="lead">No url provided.</p>
-<p><img src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg" width="80%" height="80%"></p>
+<p>
+    <div class="hnng-img-container">
+        <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+    </div>
+</p>
 <p><small>If the issue persists, the server might be experiencing some issues.</small></p>
 <?php
 }
@@ -36,7 +40,11 @@ else {
 ?>
         <h1>Oreru&#126;</h1>
         <p class="lead"><?php echo $result['status']; ?></p>
-        <p><img src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg" width="80%" height="80%"></p>
+        <p>
+            <div class="hnng-img-container">
+                <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+            </div>
+        </p>
         <p><small>If the issue persists, the server might be experiencing some issues.</small></p>
 <?php
     }

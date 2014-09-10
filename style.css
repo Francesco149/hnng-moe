@@ -67,3 +67,20 @@ a.btn-reddit:active {
 .smalltext-page p {
     font-size: 14px;
 }
+
+.notfound-img-container {
+    position: relative;
+    padding-top: 56.03%;
+}
+
+.dynamicsize-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.hnng-img-container {
+    position: relative;
+    padding-top: 56.16%;
+}

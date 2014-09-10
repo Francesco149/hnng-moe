@@ -20,4 +20,8 @@ global $hnngConf;
 ?>
 
 <h1>Oreru&#126;</h1>
-<p><img src="<?php echo $hnngConf['siteroot']; ?>/img/404.png"></p>
+<p>
+    <div class="notfound-img-container">
+        <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/404.png?t=<?php echo time(); ?>">
+    </div>
+</p>
