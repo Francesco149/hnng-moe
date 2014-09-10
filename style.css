@@ -1,0 +1,69 @@
+body {
+    padding-top: 81px;
+    padding-bottom: 20px;
+    background-image: url(img/moeblob.jpg);
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: left top;
+    background-size: cover;
+    color: #EEE;
+}
+
+a:link, 
+a:visited, 
+a:active {
+    color: #96CEFF;
+}
+
+a:hover {
+    color: #88B9E3;
+}
+
+/* how do I avoid having to override any custom link styling for buttons? */
+a.btn-twitter:link, 
+a.btn-twitter:visited, 
+a.btn-twitter:active, 
+a.btn-facebook:link, 
+a.btn-facebook:visited, 
+a.btn-facebook:active, 
+a.btn-google-plus:link, 
+a.btn-google-plus:visited, 
+a.btn-google-plus:active, 
+a.btn-tumblr:link, 
+a.btn-tumblr:visited, 
+a.btn-tumblr:active{
+    color: #FFF;
+}
+
+a.btn-reddit:link, 
+a.btn-reddit:visited, 
+a.btn-reddit:active {
+    color: #000;
+}
+
+/* limit the layout width on large screens */
+@media (min-width: 768px) {
+    .container {
+        max-width: 730px;
+    }
+}
+
+.jumbotron {
+    background: #333;
+    background: rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+.social, 
+.footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.footer {
+    background: #333;
+}
+
+.smalltext-page p {
+    font-size: 14px;
+}

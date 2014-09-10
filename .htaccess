@@ -1,0 +1,15 @@
+RewriteEngine On
+ErrorDocument 404 http://hnng.moe/notfound
+
+RewriteRule ^about/?$ index.php?act=about [L]
+RewriteRule ^api/?$ index.php?act=api [L]
+RewriteRule ^donate/?$ index.php?act=donate [L]
+RewriteRule ^manteinance/?$ index.php?act=manteinance [L]
+RewriteRule ^notfound/?$ index.php?act=notfound [L]
+RewriteRule ^wip/?$ index.php?act=wip [L]
+RewriteRule ^do/?$ index.php?act=createlink [L]
+RewriteRule ^sharefiles/?$ index.php?act=sharefiles [L]
+RewriteRule ^doupload/?$ index.php?act=doupload [L]
+
+RewriteRule ^f/([a-z0-9-]+)/?$ getfile.php?fileid=$1 [NC,L]
+RewriteRule ^([a-z0-9-]+)/?$ geturl.php?urlid=$1 [NC,L]
