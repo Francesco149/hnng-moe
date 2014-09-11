@@ -37,6 +37,61 @@ catch (PDOException $ex) {
     die('Oreru! Database connection failed: ' . $ex->getMessage());
 }
     
+function hnngFloodCheck($ip, $requestspersec) {
+    global $db;
+    
+    try {
+        $st = $db->prepare("SELECT * FROM hnng_activity WHERE ip=?");
+        $st->bindValue(1, $ip, PDO::PARAM_STR);
+        $st->execute();
+        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (empty($rows)) {
+            $st = $db->prepare("INSERT INTO hnng_activity(ip, requests, total_requests, last_update) "
+                . "VALUES (:ip, :requests, :totalrequests, :lastupdate)");
+            $st->bindValue(':ip', $ip, PDO::PARAM_STR);
+            $st->bindValue(':requests', 1, PDO::PARAM_INT);
+            $st->bindValue(':totalrequests', 1, PDO::PARAM_INT);
+            $st->bindValue(':lastupdate', time(), PDO::PARAM_INT);
+            $st->execute();
+            
+            return 'OK';
+        }
+        
+        $newrequests = $rows[0]['requests'] + 1;
+        $newtrequests = $rows[0]['total_requests'] + 1;
+        $newupdate = time();
+        
+        if ($newupdate != $rows[0]['last_update']) {
+            $newrequests = 1;
+        }
+        
+        if ($newrequests > $requestspersec) {
+            return 'You are flooding the server! Please calm down.';
+        }
+        
+        $st = $db->prepare(
+              "UPDATE hnng_activity " .
+              "SET " . 
+              "requests = :requests, " . 
+              "total_requests = :totalrequests, "  . 
+              "last_update = :lastupdate " . 
+              "WHERE ip = :ip"
+        );
+        $st->bindValue(':requests', $newrequests, PDO::PARAM_INT);
+        $st->bindValue(':totalrequests', $newtrequests, PDO::PARAM_INT);
+        $st->bindValue(':lastupdate', $newupdate, PDO::PARAM_INT);
+        $st->bindValue(':ip', $ip, PDO::PARAM_STR);
+        $st->execute();
+        
+        return 'OK';
+    }
+    
+    catch (PDOException $ex) {
+        return 'There\'s a database error. Try again or report this to the developer.';
+    }
+}
+    
 function hnngGetUrlById($id) {
     global $db;
     try {
@@ -140,10 +195,6 @@ function hnngGetNextCombination($id) {
 function hnngShortenUrl($url) {
     global $db, $hnngConf, $charset;
     
-    if (strlen($url) > 2000) {
-        $url = substr($url, 0, 2000);
-    }
-    
     // TODO: see if I can find a way to not provide a delete link when it's not 
     // possible (for example when re-shortening an url that has already been shortened)
     $outputarray = array(
@@ -151,6 +202,18 @@ function hnngShortenUrl($url) {
         'deletelink' => 'http://hnng.moe', 
         'status' => 'OK'
     );
+    
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $flood = hnngFloodCheck($ip, $hnngConf['shorten_requestspersec']);
+    
+    if ($flood != 'OK') {
+        $outputarray['status'] = $flood;
+        return $outputarray;
+    }
+    
+    if (strlen($url) > 2000) {
+        $url = substr($url, 0, 2000);
+    }
     
     $reuse = false;
     
@@ -176,7 +239,6 @@ function hnngShortenUrl($url) {
         $st->execute();
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
         
-        $ip = $_SERVER['REMOTE_ADDR'];
         $id = '';
         $number = 0;
         
@@ -252,12 +314,19 @@ function hnngUploadFile($file) {
         'status' => 'OK'
     );
     
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $flood = hnngFloodCheck($ip, $hnngConf['upload_requestspersec']);
+    
+    if ($flood != 'OK') {
+        $outputarray['status'] = $flood;
+        return $outputarray;
+    }
+    
     try {
         $st = $db->prepare("SELECT * FROM hnng_deleted_uploads ORDER BY number ASC LIMIT 1");
         $st->execute();
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
         
-        $ip = $_SERVER['REMOTE_ADDR'];
         $id = '';
         $number = 0;
         $reuse = false;

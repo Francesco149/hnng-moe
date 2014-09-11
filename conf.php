@@ -46,7 +46,11 @@ $hnngConf = array(
     'upload_dir' => 'u', 
     'upload_access' => 'f', 
     'private_upload' => false, 
-    'private_upload_key' => 'password'
+    'private_upload_key' => 'password', 
+    
+    // anti flood
+    'shorten_requestspersec' => 5, 
+    'upload_requestspersec' => 3
 );
 
 $hnngPages = array(
