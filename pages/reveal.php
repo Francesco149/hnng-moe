@@ -32,4 +32,4 @@ global $hnngConf;
             type="submit" name="shorten" value="Moe&#126;">
     </div>
 </form>
-<p><sub>You can also add /r/ in front of a shortened url's id to reveal it, for example http://hnng.moe/31 &#8594; http://hnng.moe/r/31</sub></p>
+<p><sub>You can also add /r/ in front of a shortened url's id to reveal it, for example <?php echo $hnngConf['siteroot_short']; ?>/31 &#8594; <?php echo $hnngConf['siteroot_short']; ?>/r/31</sub></p>
