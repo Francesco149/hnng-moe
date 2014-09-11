@@ -34,7 +34,7 @@ if (isset($_SERVER['HTTP_USER_AGENT']) &&
         <meta name="description" content="Link shortening and file sharing for moe anime lovers">
         <?php hnngEchoRobots(); ?>
         
-        <!--                  [Welcome to hnng.moe v1.0b!]                   -->
+        <!--                  [Welcome to hnng.moe v1.1b!]                   -->
         <!-- Because cute girls doing cute things are serious business       -->
         <!-- * this is my first time messing with bootstrap, so bear with my -->
         <!--   crappy web design skills ;_;                                  -->
@@ -106,6 +106,7 @@ if (isset($_SERVER['HTTP_USER_AGENT']) &&
                     <?php 
                     hnngEchoPageLink($hnngConf['siteroot'],                 'Home',                               'home');
                     hnngEchoPageLink($hnngConf['siteroot'] . '/sharefiles', 'Share Files',                        'sharefiles');
+                    hnngEchoPageLink($hnngConf['siteroot'] . '/reveal',     'Reveal URLs',                        'reveal');
                     hnngEchoPageLink($hnngConf['siteroot'] . '/api',        'API',                                'api');
                     hnngEchoPageLink($hnngConf['siteroot'] . '/about',      'About',                              'about');
                     hnngEchoPageLink($hnngConf['siteroot'] . '/donate',     'Donate <i class="fa fa-heart"></i>', 'donate'); 

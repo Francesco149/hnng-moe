@@ -65,7 +65,9 @@ $hnngPages = array(
     'wip' => 'pages/wip.php', 
     'notfound' => 'pages/notfound.php', 
     'createlink' => 'pages/createlink.php', 
-    'doupload' => 'pages/bupload.php'
+    'doupload' => 'pages/bupload.php', 
+    'reveal' => 'pages/reveal.php', 
+    'reveallink' => 'pages/reveallink.php'
 );
 
 $hnngReserved = array(
@@ -86,7 +88,10 @@ $hnngReserved = array(
     'scss', 
     'u', 
     'f', 
+    'r', 
     'sharefiles', 
-    'doupload'
+    'doupload', 
+    'reveal', 
+    'reveallink'
 );
 ?>

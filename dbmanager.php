@@ -120,6 +120,26 @@ function hnngGetUrlById($id) {
     return null;
 }
 
+function hnngRevealUrl($url) {
+    global $db, $hnngConf;
+    
+    if (strpos(dirname($url), $hnngConf['siteroot_short']) === false && 
+        strpos(dirname($url), $hnngConf['siteroot']) === false) {
+        return 'Not a valid hnng.moe short link';        
+    }
+    
+    $exp = explode('/', $url);
+    $id = $exp[count($exp) - 1];
+    
+    $url = hnngGetUrlById($id);
+    
+    if ($url == null) {
+        return 'URL not found';
+    }
+    
+    return $url;
+}
+
 function hnngGetFileInfoById($id) {
     global $db;
     try {
