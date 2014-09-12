@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS `hnng_urls` (
   `number` INT NOT NULL, 
   PRIMARY KEY  (`id`),
   UNIQUE KEY `hash` (`hash`),
-  UNIQUE KEY `time` (`time`), 
   UNIQUE KEY `deletekey` (`deletekey`), 
   UNIQUE KEY `number` (`number`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -31,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `hnng_deleted_urls` (
   `deletedbyip` char(45) character set utf8 collate utf8_bin NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `hash` (`hash`),
-  UNIQUE KEY `time` (`time`), 
   UNIQUE KEY `number` (`number`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

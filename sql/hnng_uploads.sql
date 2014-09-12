@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `hnng_uploads` (
   `deletekey` char(32) character set utf8 collate utf8_bin NOT NULL,
   `number` INT NOT NULL AUTO_INCREMENT, 
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `time` (`time`), 
   UNIQUE KEY `deletekey` (`deletekey`), 
   UNIQUE KEY `number` (`number`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -29,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `hnng_deleted_uploads` (
   `number` INT NOT NULL, 
   `deletedbyip` char(45) character set utf8 collate utf8_bin NOT NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `time` (`time`), 
   UNIQUE KEY `number` (`number`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
