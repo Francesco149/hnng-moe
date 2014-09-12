@@ -49,8 +49,8 @@ $hnngConf = array(
     'private_upload_key' => 'password', 
     
     // anti flood
-    'shorten_requestspersec' => 5, 
-    'upload_requestspersec' => 3
+    'shorten_requestspersec' => 2, 
+    'upload_requestspersec' => 2
 );
 
 $hnngPages = array(
