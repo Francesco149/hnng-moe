@@ -22,6 +22,7 @@ global $hnngConf;
 <h1>Stay tuned</h1>
 <p>
     <div class="hnng-img-container">
-        <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+        <img class="dynamicsize-img" 
+        	src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
     </div>
 </p>

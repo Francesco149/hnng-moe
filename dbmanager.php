@@ -24,7 +24,8 @@ global $hnngConf;
 global $db;
 global $charset;
 
-$charset = str_split('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
+$charset = str_split(
+	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz');
 
 try {
     $db = new PDO('mysql:host=' . $hnngConf['db_host'] . ';dbname=' . 
@@ -47,8 +48,10 @@ function hnngFloodCheck($ip, $requestspersec) {
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
         
         if (empty($rows)) {
-            $st = $db->prepare("INSERT INTO hnng_activity(ip, requests, total_requests, last_update) "
-                . "VALUES (:ip, :requests, :totalrequests, :lastupdate)");
+            $st = $db->prepare(
+            	"INSERT INTO " . 
+            	"hnng_activity(ip, requests, total_requests, last_update) " .
+                "VALUES (:ip, :requests, :totalrequests, :lastupdate)");
             $st->bindValue(':ip', $ip, PDO::PARAM_STR);
             $st->bindValue(':requests', 1, PDO::PARAM_INT);
             $st->bindValue(':totalrequests', 1, PDO::PARAM_INT);
@@ -88,7 +91,8 @@ function hnngFloodCheck($ip, $requestspersec) {
     }
     
     catch (PDOException $ex) {
-        return 'There\'s a database error. Try again or report this to the developer.';
+        return "There's a database error. " . 
+        	"Try again or report this to the developer.";
     }
 }
     
@@ -175,7 +179,8 @@ function hnngGetNextCombination($id) {
             $found = false;
             
             if ($idindex < 0) {
-                array_unshift($splitid, $charset[0]); // WHY IS THIS CALLED UNSHIFT
+                array_unshift($splitid, $charset[0]); 
+                // WHY IS THIS CALLED UNSHIFT
                 // COULDN'T THEY CALL IT INSERT OR SOMETHING
                 $idindex = 0;
             }
@@ -215,8 +220,6 @@ function hnngGetNextCombination($id) {
 function hnngShortenUrl($url) {
     global $db, $hnngConf, $charset;
     
-    // TODO: see if I can find a way to not provide a delete link when it's not 
-    // possible (for example when re-shortening an url that has already been shortened)
     $outputarray = array(
         'url' => 'error', 
         'deletelink' => 'http://hnng.moe', 
@@ -245,30 +248,47 @@ function hnngShortenUrl($url) {
     $hash = md5($url);
     
     try {
+        $st = $db->prepare("SELECT id FROM hnng_deleted_urls WHERE hash = ?");
+        $st->bindValue(1, $hash, PDO::PARAM_STR);
+        $st->execute();
+        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (count($rows) > 0) { // url aready exists and was deleted
+            $outputarray['status'] = 
+            	"Sorry, this URL was banned from the service.";
+            return $outputarray;
+        }
+    
         $st = $db->prepare("SELECT id FROM hnng_urls WHERE hash = ?");
         $st->bindValue(1, $hash, PDO::PARAM_STR);
         $st->execute();
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
         
-        if (count($rows) > 0) { // url aready exists
-            $outputarray['url'] = $hnngConf['siteroot_short'] . '/' . $rows[0]['id'];
+        if (count($rows) > 0) { // url aready exists (no deletion link)
+            $outputarray['url'] = 
+            	$hnngConf['siteroot_short'] . '/' . $rows[0]['id'];
             return $outputarray;
         }
         
-        $st = $db->prepare("SELECT * FROM hnng_deleted_urls ORDER BY number ASC LIMIT 1");
-        $st->execute();
-        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-        
-        $id = '';
-        $number = 0;
-        
-        if (!empty($rows)) { // reuse a deleted id
-            $id = $rows[0]['id'];
-            $number = $rows[0]['number'];
-            $reuse = true;
+        if ($hnngConf['resuse_deleted_urls']) {
+		    $st = $db->prepare(
+		    	"SELECT * FROM hnng_deleted_urls ORDER BY number ASC LIMIT 1");
+		    $st->execute();
+		    $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+		    
+		    $id = '';
+		    $number = 0;
+		    
+		    if (!empty($rows)) { // reuse a deleted id
+		        $id = $rows[0]['id'];
+		        $number = $rows[0]['number'];
+		        $reuse = true;
+		    }
         }
-        else {
-            $st = $db->prepare("SELECT id FROM hnng_urls ORDER BY number DESC LIMIT 1");
+        
+        if (!$reuse) {
+            $st = $db->prepare(
+            	"SELECT id FROM hnng_urls ORDER BY number DESC LIMIT 1");
             $st->execute();
             $rows = $st->fetchAll(PDO::FETCH_ASSOC);
             $id = $charset[0];
@@ -279,16 +299,21 @@ function hnngShortenUrl($url) {
             }
             
             if (!isset($id)) {
-                $outputarray['status'] = 'Unknown id error, please report this to the developer.';
+                $outputarray['status'] = 
+                	"Unknown id error, please report this to the developer.";
                 return $outputarray;
             }
         }
         
         $deletekey = md5($id . $url . $ip . time() . $hash);
         
-        $que = $reuse ? "INSERT INTO hnng_urls(id, url, ip, hash, deletekey, number) VALUES(:id, :url, :ip, :hash, :deletekey, :number)"
+        $que = $reuse ? "INSERT INTO " . 
+        				"hnng_urls(id, url, ip, hash, deletekey, number) " . 
+        				"VALUES(:id, :url, :ip, :hash, :deletekey, :number)"
                 :
-                        "INSERT INTO hnng_urls(id, url, ip, hash, deletekey) VALUES(:id, :url, :ip, :hash, :deletekey)";
+                        "INSERT INTO " . 
+                        "hnng_urls(id, url, ip, hash, deletekey) " . 
+                        "VALUES(:id, :url, :ip, :hash, :deletekey)";
         
         $st = $db->prepare($que);
         $st->bindValue(':id', $id, PDO::PARAM_STR);
@@ -304,7 +329,8 @@ function hnngShortenUrl($url) {
         $st->execute();
         
         $outputarray['url'] = $hnngConf['siteroot_short'] . '/' . $id;
-        $outputarray['deletelink'] = $hnngConf['siteroot'] . '/deletelink.php?key=' . $deletekey;
+        $outputarray['deletelink'] = $hnngConf['siteroot'] . 
+        	'/deletelink.php?key=' . $deletekey;
         
         if ($reuse) { // delete the id from the deleted id's table
             $st = $db->prepare("DELETE FROM hnng_deleted_urls WHERE id = :id");
@@ -316,7 +342,8 @@ function hnngShortenUrl($url) {
     }
     
     catch (PDOException $ex) {
-        $outputarray['status'] = 'There\'s a database error. Try again or report this to the developer.'; 
+        $outputarray['status'] = "There's a database error. Try again or " . 
+        	"report this to the developer."; 
         // todo: log $ex->getMessage()
         return $outputarray;
     }
@@ -343,7 +370,8 @@ function hnngUploadFile($file) {
     }
     
     try {
-        $st = $db->prepare("SELECT * FROM hnng_deleted_uploads ORDER BY number ASC LIMIT 1");
+        $st = $db->prepare(
+        	"SELECT * FROM hnng_deleted_uploads ORDER BY number ASC LIMIT 1");
         $st->execute();
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
         
@@ -358,7 +386,8 @@ function hnngUploadFile($file) {
         }
         else {
             // get the last uploaded file id
-            $st = $db->prepare("SELECT id FROM hnng_uploads ORDER BY number DESC LIMIT 1");
+            $st = $db->prepare(
+            	"SELECT id FROM hnng_uploads ORDER BY number DESC LIMIT 1");
             $st->execute();
             $rows = $st->fetchAll(PDO::FETCH_ASSOC);
             $id = $charset[0];
@@ -369,7 +398,8 @@ function hnngUploadFile($file) {
             }
             
             if (!isset($id)) {
-                $outputarray['status'] = 'Unknown id error, please report this to the developer.';
+                $outputarray['status'] = 
+                	"Unknown id error, please report this to the developer.";
                 return $outputarray;
             }
         }
@@ -387,11 +417,17 @@ function hnngUploadFile($file) {
         
         $deletekey = md5($id . $mime . $originalname . $ip . time());
         
-        $que = $reuse ? "INSERT INTO hnng_uploads(id, mime_type, original_name, ip, deletekey, number) " . 
-                        "VALUES(:id, :mime_type, :original_name, :ip, :deletekey, :number)"
+        $que = $reuse ? "INSERT INTO " . 
+        				"hnng_uploads(id, mime_type, original_name, " . 
+        					"ip, deletekey, number) " . 
+                        "VALUES(:id, :mime_type, :original_name, " . 
+                        	":ip, :deletekey, :number)"
                 :
-                        "INSERT INTO hnng_uploads(id, mime_type, original_name, ip, deletekey) " . 
-                        "VALUES(:id, :mime_type, :original_name, :ip, :deletekey)";
+                        "INSERT INTO " . 
+                        "hnng_uploads(id, mime_type, " . 
+                        	"original_name, ip, deletekey) " . 
+                        "VALUES(:id, :mime_type, " . 
+                        	":original_name, :ip, :deletekey)";
         
         $st = $db->prepare($que);
         $st->bindValue(':id', $id, PDO::PARAM_STR);
@@ -406,11 +442,15 @@ function hnngUploadFile($file) {
         
         $st->execute();
         
-        $outputarray['url'] = $hnngConf['siteroot_short'] . '/' . $hnngConf['upload_access'] . '/' . $id;
-        $outputarray['deletelink'] = $hnngConf['siteroot'] . '/deleteupload.php?key=' . $deletekey;
+        $outputarray['url'] = $hnngConf['siteroot_short'] . 
+        	'/' . $hnngConf['upload_access'] . '/' . $id;
+        	
+        $outputarray['deletelink'] = $hnngConf['siteroot'] . 
+        	'/deleteupload.php?key=' . $deletekey;
         
         if ($reuse) { // delete the id from the deleted id's table
-            $st = $db->prepare("DELETE FROM hnng_deleted_uploads WHERE id = :id");
+            $st = $db->prepare(
+            	"DELETE FROM hnng_deleted_uploads WHERE id = :id");
             $st->bindValue(':id', $id);
             $st->execute();
         }
@@ -419,29 +459,32 @@ function hnngUploadFile($file) {
     }
     
     catch (PDOException $ex) {
-        $outputarray['status'] = 'There\'s a database error. Try again or report this to the developer.'; 
+        $outputarray['status'] = "There's a database error. " . 
+        	"Try again or report this to the developer."; 
         // todo: log $ex->getMessage()
         return $outputarray;
     }
     
-    $outputarray['status'] = 'Unknown error! Report this to the developer.';
+    $outputarray['status'] = "Unknown error! Report this to the developer.";
     return $outputarray;   
 }
 
 function hnngDeleteUrl($key) {
     global $db;
     try {
-        $st = $db->prepare("SELECT id, url, ip, hash, number FROM hnng_urls WHERE deletekey=?");
+        $st = $db->prepare(
+        	"SELECT id, url, ip, hash, number FROM hnng_urls WHERE deletekey=?"
+        );
         $st->bindValue(1, $key, PDO::PARAM_STR);
         $st->execute();
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
         
         if (empty($rows)) {
-            return 'Your deletion link is invalid or has already been used.';
+            return "Your deletion link is invalid or has already been used.";
         }
         
         if (count($rows) != 1) {
-            return 'Unexpected row count. Please report this to the developer.';
+            return "Unexpected row count. Please report this to the developer.";
         }
         
         $id = $rows[0]['id'];
@@ -451,8 +494,11 @@ function hnngDeleteUrl($key) {
         $number = $rows[0]['number'];
         $deletedbyip = $_SERVER['REMOTE_ADDR'];
         
-        $st = $db->prepare("INSERT INTO hnng_deleted_urls(id, url, ip, hash, number, deletedbyip) " . 
-            "VALUES(:id, :url, :ip, :hash, :number, :deletedbyip)");
+        $st = $db->prepare(
+        	"INSERT INTO " . 
+        	"hnng_deleted_urls(id, url, ip, hash, number, deletedbyip) " . 
+            "VALUES(:id, :url, :ip, :hash, :number, :deletedbyip)"
+        );
         $st->bindValue(':id', $id, PDO::PARAM_STR);
         $st->bindValue(':url', $url, PDO::PARAM_STR);
         $st->bindValue(':ip', $ip, PDO::PARAM_STR);
@@ -465,30 +511,32 @@ function hnngDeleteUrl($key) {
         $st->bindValue(1, $key, PDO::PARAM_STR);
         $st->execute();
             
-        return 'Success! Your URL has been deleted.';
+        return "Success! Your URL has been deleted.";
     }
     
     catch (PDOException $ex) {
-        return 'Database error. If the issue persists, the server might be experiencing some issues. ' . $ex->getMessage();
+        return "Database error. If the issue persists, the server might be " . 
+        	"experiencing some issues. " . $ex->getMessage();
     }
     
-    return 'Unexpected error. Please report this to the developer.';
+    return "Unexpected error. Please report this to the developer.";
 }
 
 function hnngDeleteUpload($key) {
     global $db;
     try {
-        $st = $db->prepare("SELECT id, mime_type, original_name, ip, number FROM hnng_uploads WHERE deletekey=?");
+        $st = $db->prepare("SELECT id, mime_type, original_name, ip, number " . 
+        	"FROM hnng_uploads WHERE deletekey=?");
         $st->bindValue(1, $key, PDO::PARAM_STR);
         $st->execute();
         $rows = $st->fetchAll(PDO::FETCH_ASSOC);
         
         if (empty($rows)) {
-            return 'Your deletion link is invalid or has already been used.';
+            return "Your deletion link is invalid or has already been used.";
         }
         
         if (count($rows) != 1) {
-            return 'Unexpected row count. Please report this to the developer.';
+            return "Unexpected row count. Please report this to the developer.";
         }
         
         $id = $rows[0]['id'];
@@ -498,8 +546,13 @@ function hnngDeleteUpload($key) {
         $number = $rows[0]['number'];
         $deletedbyip = $_SERVER['REMOTE_ADDR'];
         
-        $st = $db->prepare("INSERT INTO hnng_deleted_uploads(id, mime_type, original_name, ip, number, deletedbyip) " . 
-            "VALUES(:id, :mimetype, :originalname, :ip, :number, :deletedbyip)");
+        $st = $db->prepare(
+        	"INSERT INTO " . 
+        	"hnng_deleted_uploads(id, mime_type, original_name, " . 
+        		"ip, number, deletedbyip) " . 
+            "VALUES(:id, :mimetype, :originalname, " .
+            	":ip, :number, :deletedbyip)"
+        );	
         $st->bindValue(':id', $id, PDO::PARAM_STR);
         $st->bindValue(':mimetype', $mime, PDO::PARAM_STR);
         $st->bindValue(':originalname', $originalname, PDO::PARAM_STR);
@@ -512,13 +565,14 @@ function hnngDeleteUpload($key) {
         $st->bindValue(1, $key, PDO::PARAM_STR);
         $st->execute();
             
-        return 'Success! Your file has been deleted.';
+        return "Success! Your file has been deleted.";
     }
     
     catch (PDOException $ex) {
-        return 'Database error. If the issue persists, the server might be experiencing some issues.';
+        return "Database error. If the issue persists, the server might " . 
+        	"be experiencing some issues.";
     }
     
-    return 'Unexpected error. Please report this to the developer.';
+    return "Unexpected error. Please report this to the developer.";
 }
 ?>

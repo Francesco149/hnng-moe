@@ -23,7 +23,8 @@ global $hnngConf;
 <p class="lead">
     Generate a hnng.moe short link and easily share it.
 </p>
-<form role="form" action="<?php echo $hnngConf['siteroot']; ?>/do" method="post" enctype="multipart/form-data">
+<form role="form" action="<?php echo $hnngConf['siteroot']; ?>/do" 
+	method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input class="form-control" type="text" name="hnngUrl" value="">
     </div>
@@ -33,4 +34,5 @@ global $hnngConf;
     </div>
 </form>
 <p><sub>If you're looking to share files, check out the 
-<a href="<?php echo $hnngConf['siteroot']; ?>/sharefiles">file uploader</a>.</sub></p>
+<a href="<?php echo $hnngConf['siteroot']; ?>/sharefiles">file uploader</a>.
+</sub></p>

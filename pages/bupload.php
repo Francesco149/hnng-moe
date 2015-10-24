@@ -37,10 +37,13 @@ if($result['status'] != 'OK') {
     <p class="lead"><?php echo $res; ?></p>
     <p>
         <div class="hnng-img-container">
-            <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+            <img class="dynamicsize-img" 
+            	src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
         </div>
     </p>
-    <p><small>If the issue persists, the server might be experiencing some issues.</small></p>
+    <p><small>
+    	If the issue persists, the server might be experiencing some issues.
+    </small></p>
 <?php
 }
 
@@ -50,12 +53,14 @@ else {
     <form>
         <div class="form-group">
 <?php
-        echo '<input class="form-control" type="text" value="' . $res . '">';
+        	echo '<input class="form-control" type="text" value="' . $res . '">';
 ?>
-<p>&nbsp;</p>
-            <p><sub>To delete your file, just save this link and visit it when you need to delete it:</sub></p>
+			<p>&nbsp;</p>
+            <p><sub>To delete your file, just save this link and visit it when 
+            you need to delete it:</sub></p>
 <?php
-            echo '<input class="form-control" type="text" value="' . $deleteurl . '">';
+            echo '<input class="form-control" type="text" value="' . 
+            	$deleteurl . '">';
 ?>
         </div>
     </form>

@@ -23,7 +23,8 @@ global $hnngConf;
 <p class="lead">
     Find out where a hnng.moe shortened link leads to before clicking on it.
 </p>
-<form role="form" action="<?php echo $hnngConf['siteroot']; ?>/reveallink" method="post" enctype="multipart/form-data">
+<form role="form" action="<?php echo $hnngConf['siteroot']; ?>/reveallink" 
+	method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input class="form-control" type="text" name="hnngUrl" value="">
     </div>
@@ -32,4 +33,6 @@ global $hnngConf;
             type="submit" name="shorten" value="Moe&#126;">
     </div>
 </form>
-<p><sub>You can also add /r/ in front of a shortened url's id to reveal it, for example <?php echo $hnngConf['siteroot_short']; ?>/31 &#8594; <?php echo $hnngConf['siteroot_short']; ?>/r/31</sub></p>
+<p><sub>You can also add /r/ in front of a shortened url's id to reveal it, 
+for example <?php echo $hnngConf['siteroot_short']; ?>/31 &#8594; <?php 
+echo $hnngConf['siteroot_short']; ?>/r/31</sub></p>

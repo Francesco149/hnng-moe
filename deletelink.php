@@ -26,7 +26,7 @@ $_GET = hnngSanitizeArray($_GET);
 $devkey = $_GET['devkey'];
 
 if ($devkey != $hnngConf['devkey']) {
-    die("Sorry only developers can delete links!");
+    die("Sorry, only developers can delete links!");
 }
 
 $key = $_GET['key'];

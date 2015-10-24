@@ -24,10 +24,12 @@ if (!isset($_POST['hnngUrl'])) {
 <p class="lead">No url provided.</p>
 <p>
     <div class="hnng-img-container">
-        <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+        <img class="dynamicsize-img" 
+        	src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
     </div>
 </p>
-<p><small>If the issue persists, the server might be experiencing some issues.</small></p>
+<p><small>If the issue persists, the server might be experiencing some issues.
+</small></p>
 <?php
 }
 else {
@@ -42,10 +44,12 @@ else {
         <p class="lead"><?php echo $result['status']; ?></p>
         <p>
             <div class="hnng-img-container">
-                <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+                <img class="dynamicsize-img" 
+                	src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
             </div>
         </p>
-        <p><small>If the issue persists, the server might be experiencing some issues.</small></p>
+        <p><small>If the issue persists, the server might be experiencing some 
+        issues.</small></p>
 <?php
     }
 
@@ -55,25 +59,8 @@ else {
         <form>
             <div class="form-group">
 <?php
-            echo '<input class="form-control" type="text" value="' . $shortened . '">';
-            
-            /*
-            if ($deleteurl == 'http://hnng.moe') {
-
-                <p>&nbsp;</p>
-                <p><sub>This url was already submitted by someone else, so you won't get a deletion link. 
-                If you are the original submitter and you need to delete this url, just use the deletion 
-                link you recieved the first time.</sub></p>
-
-            }
-            else {
-
-                <p>&nbsp;</p>
-                <p><sub>To delete your url, just save this link and visit it when you need to delete it:</sub></p>
-
-                echo '<input class="form-control" type="text" value="' . $deleteurl . '">';
-            }
-            */
+            echo '<input class="form-control" type="text" value="' . 
+            	$shortened . '">';
 ?>
             </div>
         </form>

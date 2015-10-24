@@ -14,27 +14,31 @@
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
 */
 
+define('hnngAllowInclude', true);
+define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
 require_once hnngRoot . 'includecheck.php';
+require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
-global $hnngConf;
-?>
+require_once hnngRoot . 'utils.php';
 
-<h1>Share Files</h1>
-<p class="lead">
-    Maximum file size: 25M
-</p>
-<form action="<?php echo $hnngConf['siteroot']; ?>/doupload" method="post"
-    enctype="multipart/form-data">
-    <div class="form-group">
-        <input type="file" name="file" id="file" align="center">
-    </div>
-    <div class="form-group">
-        <input id="hnngSubmit" class="btn btn-lg btn-success" 
-            type="submit" name="shorten" value="Moe&#126;">
-    </div>
-</form>
-<p><sub>You can also upload screenshots and files directly from your desktop 
-by setting up <a target="_blank" href="http://getsharex.com/">ShareX</a> 
-for hnng.moe. 
-Check out the <a href="<?php echo $hnngConf['siteroot']; ?>/api">API</a> for 
-the settings.</sub></p>
+$_GET = hnngSanitizeArray($_GET);
+
+$devkey = $_GET['devkey'];
+
+if ($devkey != $hnngConf['devkey']) {
+    die("Sorry only developers can use this!");
+}
+
+$time = $_GET['time'];
+$lastid = $_GET['lastid'];
+$time = date("Y-m-d\TH:i:s\Z", $time);
+$st = $db->prepare("SELECT id, original_name, time, deletekey " . 
+	"FROM hnng_uploads WHERE time >= :time AND id != :lastid " . 
+	"ORDER BY time ASC LIMIT 0 , 4");
+$st->bindValue(':time', $time, PDO::PARAM_STR);
+$st->bindValue(':lastid', $lastid, PDO::PARAM_STR);
+$st->execute();
+$rows = $st->fetchAll(PDO::FETCH_ASSOC);
+
+echo json_encode($rows);
+?>

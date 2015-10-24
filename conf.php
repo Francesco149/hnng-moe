@@ -17,9 +17,11 @@
 require_once hnngRoot . 'includecheck.php';
 
 $hnngConf = array(
-    // this is the devkey. it can be used to test pages through index.php?act=&devkey=xxxxx
+    // this is the devkey. it can be used to 
+    // test pages through index.php?act=&devkey=xxxxx
     // while the website is under manteinance
-    // yes, this is extremely ghetto and I'll eventually make an admin login thingy
+    // yes, this is extremely ghetto and I'll eventually 
+    // make an admin login thingy
     'devkey' => 'password', 
     
     'siteroot' => 'http://www.hnng.moe', 
@@ -29,6 +31,7 @@ $hnngConf = array(
     'manteinance' => false, 
     'comingsoon' => false, 
     'nofollow' => false, 
+    'reuse_deleted_urls' => false, 
     
     // mysql
     'db_user' => 'user', 

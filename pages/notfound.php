@@ -22,6 +22,7 @@ global $hnngConf;
 <h1>Oreru&#126;</h1>
 <p>
     <div class="notfound-img-container">
-        <img class="dynamicsize-img" src="<?php echo $hnngConf['siteroot']; ?>/img/404.png">
+        <img class="dynamicsize-img" 
+        	src="<?php echo $hnngConf['siteroot']; ?>/img/404.png">
     </div>
 </p>
