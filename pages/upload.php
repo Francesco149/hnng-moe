@@ -21,7 +21,7 @@ global $hnngConf;
 
 <h1>Share Files</h1>
 <p class="lead">
-    Maximum file size: 25M
+    Maximum file size: <?php echo ini_get('upload_max_filesize'); ?>
 </p>
 <form action="<?php echo $hnngConf['siteroot']; ?>/doupload" method="post"
     enctype="multipart/form-data">

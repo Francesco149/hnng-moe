@@ -32,7 +32,9 @@ if (!isset($fileinfo)) {
     exit();
 }
 
+$filepath = hnngRoot . '/' . $hnngConf['upload_dir'] . '/' . $id;
 header('Content-type: ' . $fileinfo['mime_type']);
+header('Content-Length: ' . filesize($filepath));
 header('Content-Disposition: filename="' . $fileinfo['original_name'] . '"');
-readfile(hnngRoot . '/' . $hnngConf['upload_dir'] . '/' . $id);
+readfile($filepath);
 ?>
