@@ -4,6 +4,7 @@ ErrorDocument 404 http://hnng.moe/notfound
 RewriteRule ^about/?$ index.php?act=about [L]
 RewriteRule ^api/?$ index.php?act=api [L]
 RewriteRule ^donate/?$ index.php?act=donate [L]
+RewriteRule ^privacy/?$ index.php?act=privacy [L]
 RewriteRule ^manteinance/?$ index.php?act=manteinance [L]
 RewriteRule ^notfound/?$ index.php?act=notfound [L]
 RewriteRule ^wip/?$ index.php?act=wip [L]
