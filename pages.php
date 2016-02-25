@@ -22,8 +22,13 @@ require_once hnngRoot . 'utils.php';
 $_GET = hnngSanitizeArray($_GET);
 
 // will be used to dynamically load the desired contents
-$pagename = $_GET['act'];
-$devkey = $_GET['devkey'];
+if (!empty($_GET['act'])) { // meh, this is redundant but it fixes shitty warns
+	$pagename = $_GET['act'];
+}
+
+if (!empty($_GET['devkey'])) {
+	$devkey = $_GET['devkey'];
+}
 
 if ($hnngConf['manteinance'] && $devkey != $hnngConf['devkey']) {
     $pagename = $hnngConf['manteinance_page'];
@@ -33,7 +38,7 @@ else if ($hnngConf['comingsoon'] && $devkey != $hnngConf['devkey']) {
     $pagename = $hnngConf['wip_page'];
 }
 
-else if (!isset($pagename) || empty($pagename)) {
+else if (empty($pagename)) {
     $pagename = $hnngConf['default_page']; // fall back to home on empty page
 }
 
