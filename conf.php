@@ -70,7 +70,8 @@ $hnngPages = array(
     'createlink' => 'pages/createlink.php', 
     'doupload' => 'pages/bupload.php', 
     'reveal' => 'pages/reveal.php', 
-    'reveallink' => 'pages/reveallink.php'
+	'reveallink' => 'pages/reveallink.php',
+	'privacy' => 'pages/privacy.php'
 );
 
 $hnngReserved = array(
@@ -95,6 +96,7 @@ $hnngReserved = array(
     'sharefiles', 
     'doupload', 
     'reveal', 
-    'reveallink'
+	'reveallink',
+	'privacy'
 );
 ?>
