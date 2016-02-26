@@ -16,13 +16,18 @@
 
 define('hnngAllowInclude', true);
 define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
-require_once hnngRoot . 'includecheck.php';
+require_once hnngRoot . 'debug.php';
 require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
 $_GET = hnngSanitizeArray($_GET);
-$id = $_GET['fileid'];
+$id = "";
+if (!empty($_GET['fileid']) || 
+	(isset($_GET['fileid']) && $_GET['fileid'] === '0')) {
+
+	$id = $_GET['fileid'];
+}
 $fileinfo = hnngGetFileInfoById($id);
 
 if (!isset($fileinfo)) {

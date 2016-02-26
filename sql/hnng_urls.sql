@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `hnng_deleted_urls` (
   `ip` char(45) character set utf8 collate utf8_bin NOT NULL,
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `hash` char(32) character set utf8 collate utf8_bin NOT NULL, 
-  `number` INT NOT, 
+  `number` INT NOT NULL, 
   `deletedbyip` char(45) character set utf8 collate utf8_bin NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `hash` (`hash`),

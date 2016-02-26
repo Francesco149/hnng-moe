@@ -14,6 +14,10 @@
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
 */
 
+if (!defined('hnngRoot')) {
+	define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
+}
+
 if (!defined('hnngAllowInclude')) {
     header('HTTP/1.0 403 Forbidden');
     die('You are not allowed to access this file.');
@@ -21,31 +25,17 @@ if (!defined('hnngAllowInclude')) {
 
 require_once hnngRoot . 'conf.php';
 
-function hnngEchoRobots() {
-    global $hnngConf;
-    
-    if ($hnngConf['nofollow'] == true) { 
-        echo '<meta name="robots" content="noindex, nofollow">';
-        return;
-    } 
-    
-    echo '<meta name="robots" content="noarchive">';
+function horishet($errno, $errstr, $errfile, $errline) {
+	// this might throw warnings but it's ok we're just debugging and we 
+	// gotta make sure that we display the warnings whatever mime type we tried
+	// to set in headers
+	header_remove('Content-type');
+	header_remove('Content-Length');
+	header_remove('Content-Disposition');
+	header('Content-type: text/html');
+	throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
 }
-
-// sanitizes a string array and removes everything except for a-ZA-Z0-9_.-&=
-function hnngSanitizeArray($url) {
-    if (is_array($url)) {
-        foreach ($url as $key => $value) {
-            $url[$key] = hnngSanitizeArray($value);
-        }
-
-        return $url;
-    }
-
-    else {
-        // remove everything except for a-ZA-Z0-9_.-&=
-        $url = preg_replace('/[^a-zA-Z0-9_\.\-&=@\s]/', '', $url);
-        return $url;
-    }
+if ($hnngConf['debug']) {
+	set_error_handler("horishet");
 }
 ?>

@@ -16,21 +16,28 @@
 
 define('hnngAllowInclude', true);
 define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
-require_once hnngRoot . 'includecheck.php';
+require_once hnngRoot . 'debug.php';
 require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
 $_GET = hnngSanitizeArray($_GET);
-
-$devkey = $_GET['devkey'];
-
-if ($devkey != $hnngConf['devkey']) {
+if (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey']) {
     die("Sorry only developers can use this!");
 }
 
+if (!isset($_GET['time'])) {
+	echo json_encode(array());
+	exit();
+}
+
 $time = $_GET['time'];
-$lastid = $_GET['lastid'];
+
+$lastid = "";
+if (isset($_GET['lastid'])) {
+	$lastid = $_GET['lastid'];
+}
+
 $time = date("Y-m-d\TH:i:s\Z", $time);
 $st = $db->prepare("SELECT id, url, time, deletekey " . 
 	"FROM hnng_urls WHERE time >= :time AND id != :lastid " . 

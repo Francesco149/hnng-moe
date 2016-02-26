@@ -14,7 +14,11 @@
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once hnngRoot . 'includecheck.php';
+if (!defined('hnngAllowInclude')) {
+    header('HTTP/1.0 403 Forbidden');
+    die('You are not allowed to access this file.');
+}
+
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
@@ -22,27 +26,23 @@ require_once hnngRoot . 'utils.php';
 $_GET = hnngSanitizeArray($_GET);
 
 // will be used to dynamically load the desired contents
+$pagename = $hnngConf['default_page']; // fall back to home on empty page
+
 if (!empty($_GET['act'])) { // meh, this is redundant but it fixes shitty warns
 	$pagename = $_GET['act'];
 }
 
-if (!empty($_GET['devkey'])) {
-	$devkey = $_GET['devkey'];
+if (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey']) {
+	// not a dev
+	if ($hnngConf['manteinance']) {
+    	$pagename = $hnngConf['manteinance_page'];
+	}
+	else if ($hnngConf['comingsoon']) {
+    	$pagename = $hnngConf['wip_page'];
+	}
 }
 
-if ($hnngConf['manteinance'] && $devkey != $hnngConf['devkey']) {
-    $pagename = $hnngConf['manteinance_page'];
-}
-
-else if ($hnngConf['comingsoon'] && $devkey != $hnngConf['devkey']) {
-    $pagename = $hnngConf['wip_page'];
-}
-
-else if (empty($pagename)) {
-    $pagename = $hnngConf['default_page']; // fall back to home on empty page
-}
-
-else if (!array_key_exists($pagename, $hnngPages)) {
+if (!array_key_exists($pagename, $hnngPages)) {
     $pagename = $hnngConf['404_page']; // 404
 }
 

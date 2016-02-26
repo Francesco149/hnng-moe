@@ -16,19 +16,22 @@
 
 define('hnngAllowInclude', true);
 define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
-require_once hnngRoot . 'includecheck.php';
+require_once hnngRoot . 'debug.php';
 require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
 $_GET = hnngSanitizeArray($_GET);
+if ($hnngConf['manteinance'] && (empty($_GET['devkey']) || 
+	$_GET['devkey'] != $hnngConf['devkey'])) {
 
-$devkey = $_GET['devkey'];
-
-if ($hnngConf['manteinance'] && $devkey != $hnngConf['devkey']) {
     die("The site is currently undergoing manteinance.");
 }
 
-$key = $_GET['key'];
+$key = "";
+if (!empty($_GET['key'])) {
+	$key = $_GET['key'];
+}
+
 echo hnngDeleteUpload($key);
 ?>

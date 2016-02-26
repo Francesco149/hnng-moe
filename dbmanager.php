@@ -12,9 +12,13 @@
     GNU General Public License for more details.
     You should have received a copy of the GNU General Public License
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
-require_once hnngRoot . 'includecheck.php';
+if (!defined('hnngAllowInclude')) {
+    header('HTTP/1.0 403 Forbidden');
+    die('You are not allowed to access this file.');
+}
+
 require_once hnngRoot . 'conf.php';
 
 $db = null;
@@ -270,7 +274,7 @@ function hnngShortenUrl($url) {
             return $outputarray;
         }
         
-        if ($hnngConf['resuse_deleted_urls']) {
+        if ($hnngConf['reuse_deleted_urls']) {
 		    $st = $db->prepare(
 		    	"SELECT * FROM hnng_deleted_urls ORDER BY number ASC LIMIT 1");
 		    $st->execute();

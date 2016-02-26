@@ -1,5 +1,5 @@
 RewriteEngine On
-ErrorDocument 404 http://hnng.moe/notfound
+ErrorDocument 404 http://localhost/notfound
 
 RewriteRule ^about/?$ index.php?act=about [L]
 RewriteRule ^api/?$ index.php?act=api [L]

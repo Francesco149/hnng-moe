@@ -16,13 +16,17 @@
 
 define('hnngAllowInclude', true);
 define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
-require_once hnngRoot . 'includecheck.php';
+require_once hnngRoot . 'debug.php';
 require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
 $_GET = hnngSanitizeArray($_GET);
-$id = $_GET['urlid'];
+$id = "";
+if (!empty($_GET['urlid'])) {
+	$id = $_GET['urlid'];
+}
+
 $url = hnngGetUrlById($id);
 
 if (!isset($url)) {

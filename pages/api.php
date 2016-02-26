@@ -14,7 +14,11 @@
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once hnngRoot . 'includecheck.php';
+if (!defined('hnngAllowInclude')) {
+    header('HTTP/1.0 403 Forbidden');
+    die('You are not allowed to access this file.');
+}
+
 require_once hnngRoot . 'conf.php';
 global $hnngConf;
 $apiurl = $hnngConf['siteroot'] . '/shortapi.php';

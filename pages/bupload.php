@@ -14,7 +14,11 @@
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once hnngRoot . 'includecheck.php';
+if (!defined('hnngAllowInclude')) {
+    header('HTTP/1.0 403 Forbidden');
+    die('You are not allowed to access this file.');
+}
+
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'utils.php';
@@ -27,14 +31,22 @@ if($hnngConf['private_upload']) {
     }
 }
 
-$result = hnngUploadFile($_FILES['file']);
+if (empty($_FILES['file'])) {
+	$result = array( 
+		'status' => "You didn't provide any file!", 
+		'url' => 'error', 
+		'deletelink' => 'error'
+	);
+} else {
+	$result = hnngUploadFile($_FILES['file']);
+}
 $res = $result['url'];
 $deleteurl = $result['deletelink'];
 
 if($result['status'] != 'OK') {
 ?>
     <h1>Oreru&#126;</h1>
-    <p class="lead"><?php echo $res; ?></p>
+    <p class="lead"><?php echo $result['status']; ?></p>
     <p>
         <div class="hnng-img-container">
             <img class="dynamicsize-img" 
@@ -51,18 +63,18 @@ else {
 ?>
     <h1>Dekita! Here's your File!</h1>
     <form>
-        <div class="form-group">
+	<div class="form-group">
 <?php
-        	echo '<input class="form-control" type="text" value="' . $res . '">';
+		echo '<input class="form-control" type="text" value="' . $res . '">';
 ?>
-			<p>&nbsp;</p>
-            <p><sub>To delete your file, just save this link and visit it when 
-            you need to delete it:</sub></p>
+		<p>&nbsp;</p>
+		<p><sub>To delete your file, just save this link and visit it when 
+		you need to delete it:</sub></p>
 <?php
-            echo '<input class="form-control" type="text" value="' . 
-            	$deleteurl . '">';
+		echo '<input class="form-control" type="text" value="' . 
+			$deleteurl . '">';
 ?>
-        </div>
+	</div>
     </form>
 <?php
 }

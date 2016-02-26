@@ -16,19 +16,20 @@
 
 define('hnngAllowInclude', true);
 define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
-require_once hnngRoot . 'includecheck.php';
+require_once hnngRoot . 'debug.php';
 require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
 $_GET = hnngSanitizeArray($_GET);
-
-$devkey = $_GET['devkey'];
-
-if ($devkey != $hnngConf['devkey']) {
+if (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey']) {
     die("Sorry, only developers can delete links!");
 }
 
-$key = $_GET['key'];
+$key = "";
+if (!empty($_GET['key'])) {
+	$key = $_GET['key'];
+}
+
 echo hnngDeleteUrl($key);
 ?>

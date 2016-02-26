@@ -1,4 +1,4 @@
-<?
+<?php
 /*
     Copyright 2014 Franc[e]sco (lolisamurai@tfwno.gf)
     This file is part of hnng.moe.
@@ -16,12 +16,14 @@
 
 define('hnngAllowInclude', true);
 define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
-require_once hnngRoot . 'includecheck.php';
+require_once hnngRoot . 'debug.php';
 require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
-if ($hnngConf['manteinance'] && $devkey != $hnngConf['devkey']) {
+if ($hnngConf['manteinance'] && 
+	(empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey'])) {
+
     die("The site is currently undergoing manteinance.");
 }
 

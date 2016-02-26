@@ -14,8 +14,15 @@
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
 */
 
-define('hnngAllowInclude', true);
-define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
+if (!defined('hnngAllowInclude')) {
+	define('hnngAllowInclude', true);
+}
+
+if (!defined('hnngRoot')) {
+	define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
+}
+
+require_once hnngRoot . 'debug.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'pages.php';
 require_once hnngRoot . 'utils.php';

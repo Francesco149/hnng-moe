@@ -14,7 +14,10 @@
     along with hnng.moe. If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once hnngRoot . 'includecheck.php';
+if (!defined('hnngAllowInclude')) {
+    header('HTTP/1.0 403 Forbidden');
+    die('You are not allowed to access this file.');
+}
 
 $hnngConf = array(
     // this is the devkey. it can be used to 
@@ -24,8 +27,8 @@ $hnngConf = array(
     // make an admin login thingy
     'devkey' => 'password', 
     
-    'siteroot' => 'http://www.hnng.moe', 
-    'siteroot_short' => 'http://hnng.moe', 
+    'siteroot' => 'http://localhost', 
+    'siteroot_short' => 'http://localhost', 
     
     // special flags
     'manteinance' => false, 
@@ -53,7 +56,9 @@ $hnngConf = array(
     
     // anti flood
     'shorten_requestspersec' => 2, 
-    'upload_requestspersec' => 2
+	'upload_requestspersec' => 2, 
+
+	'debug' => false
 );
 
 $hnngPages = array(
