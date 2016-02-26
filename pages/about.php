@@ -1,6 +1,6 @@
 <?php
 /*
-    Copyright 2014 Franc[e]sco (lolisamurai@tfwno.gf)
+    Copyright 2014-2016 Franc[e]sco (lolisamurai@waifu.club)
     This file is part of hnng.moe.
     hnng.moe is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 <p>hnng.moe is a link shortener inspired by waa.ai. It was quickly put together 
 in a day for the lulz, so if you have any feedback or find any issues with it, 
 feel free to message me on <a href="https://twitter.com/roriicon">twitter</a> or 
-<a href="mailto:lolisamurai@tfwno.gf">send me an e-mail</a>.</p>
+<a href="mailto:lolisamurai@waifu.club">send me an e-mail</a>.</p>
 <p>hnng.moe is open-source, feel free to grab a copy of the source code 
 <a href="http://hnng.moe/31" target="_blank">here</a>.</p>
 

@@ -1,6 +1,6 @@
 <?php
 /*
-    Copyright 2014 Franc[e]sco (lolisamurai@tfwno.gf)
+    Copyright 2014-2016 Franc[e]sco (lolisamurai@waifu.club)
     This file is part of hnng.moe.
     hnng.moe is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
