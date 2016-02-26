@@ -41,8 +41,27 @@ try {
 catch (PDOException $ex) {
     die('Oreru! Database connection failed: ' . $ex->getMessage());
 }
-    
-function hnngFloodCheck($ip, $requestspersec) {
+
+function hnngCheckIp($ip) {
+	global $db;
+
+	$st = $db->prepare(
+		"SELECT * FROM hnng_bans WHERE ip=?");
+	$st->bindValue(1, $ip, PDO::PARAM_STR);
+	$st->execute();
+	$rows = $st->fetchAll(PDO::FETCH_ASSOC);
+
+	if (!empty($rows)) {
+		return 'You are IP banned from this service.';
+	}
+
+	return 'OK';
+}
+
+// if this function is called more than $requests times in $time seconds for 
+// $ip, it will return an error for the next $cooldown seconds.
+// otherwise, it will return 'OK'.
+function hnngFloodCheck($ip, $requests, $time, $cooldown) {
     global $db;
     
     try {
@@ -69,13 +88,20 @@ function hnngFloodCheck($ip, $requestspersec) {
         $newtrequests = $rows[0]['total_requests'] + 1;
         $newupdate = time();
         
-        if ($newupdate != $rows[0]['last_update']) {
+		if ($newrequests <= $requests && 
+			$newupdate - $rows[0]['last_update'] >= $time) {
+
             $newrequests = 1;
-        }
-        
-        if ($newrequests > $requestspersec) {
-            return 'You are flooding the server! Please calm down.';
-        }
+		}
+
+		if ($newrequests > $requests) {
+			if ($newupdate - $rows[0]['last_update'] > $cooldown) {
+				$newrequests = 1;
+			} else {
+				// todo: log that we had a cooldown
+				return 'You are flooding the server! Please calm down.';
+			}
+		}
         
         $st = $db->prepare(
               "UPDATE hnng_activity " .
@@ -94,7 +120,8 @@ function hnngFloodCheck($ip, $requestspersec) {
         return 'OK';
     }
     
-    catch (PDOException $ex) {
+	catch (PDOException $ex) {
+		// todo: log $ex
         return "There's a database error. " . 
         	"Try again or report this to the developer.";
     }
@@ -228,16 +255,24 @@ function hnngShortenUrl($url) {
         'url' => 'error', 
         'deletelink' => 'http://hnng.moe', 
         'status' => 'OK'
-    );
-    
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $flood = hnngFloodCheck($ip, $hnngConf['shorten_requestspersec']);
+	);
+
+	$ip = $_SERVER['REMOTE_ADDR'];
+
+	$ban = hnngCheckIp($ip);
+	if ($ban != 'OK') {
+		$outputarray['status'] = $ban;
+		return $outputarray;
+	}
+
+	$flood = hnngFloodCheck($ip, $hnngConf['shorten_requestspersec'], 1, 
+		$hnngConf['shorten_cooldown']);
     
     if ($flood != 'OK') {
         $outputarray['status'] = $flood;
         return $outputarray;
-    }
-    
+	}
+
     if (strlen($url) > 2000) {
         $url = substr($url, 0, 2000);
     }
@@ -272,8 +307,18 @@ function hnngShortenUrl($url) {
             $outputarray['url'] = 
             	$hnngConf['siteroot_short'] . '/' . $rows[0]['id'];
             return $outputarray;
-        }
-        
+		}
+
+		$flood = hnngFloodCheck("_global_urls", 
+			$hnngConf['shorten_global_request_limit'], 
+			$hnngConf['shorten_global_request_time'], 
+			$hnngConf['shorten_global_request_cooldown']);
+
+		if ($flood != 'OK') {
+			$outputarray['status'] = "The URL shortener is under heavy load.";
+			return $outputarray;
+		}       
+
         if ($hnngConf['reuse_deleted_urls']) {
 		    $st = $db->prepare(
 		    	"SELECT * FROM hnng_deleted_urls ORDER BY number ASC LIMIT 1");
@@ -363,16 +408,34 @@ function hnngUploadFile($file) {
         'url' => 'error', 
         'deletelink' => 'http://hnng.moe', 
         'status' => 'OK'
-    );
-    
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $flood = hnngFloodCheck($ip, $hnngConf['upload_requestspersec']);
+	);
+
+	$ip = $_SERVER['REMOTE_ADDR'];
+
+	$ban = hnngCheckIp($ip);
+	if ($ban != 'OK') {
+		$outputarray['status'] = $ban;
+		return $outputarray;
+	}
+
+	$flood = hnngFloodCheck($ip, $hnngConf['upload_requestspersec'], 1, 
+		$hnngConf['upload_cooldown']);
     
     if ($flood != 'OK') {
         $outputarray['status'] = $flood;
         return $outputarray;
     }
-    
+ 
+	$flood = hnngFloodCheck("_global_files", 
+		$hnngConf['upload_global_request_limit'], 
+		$hnngConf['upload_global_request_time'], 
+		$hnngConf['upload_global_request_cooldown']);
+
+	if ($flood != 'OK') {
+    	$outputarray['status'] = "The file uploader is under heavy load.";
+        return $outputarray;
+	}   
+
     try {
         $st = $db->prepare(
         	"SELECT * FROM hnng_deleted_uploads ORDER BY number ASC LIMIT 1");

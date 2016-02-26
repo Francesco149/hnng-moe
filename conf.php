@@ -37,9 +37,9 @@ $hnngConf = array(
     'reuse_deleted_urls' => false, 
     
     // mysql
-    'db_user' => 'user', 
-    'db_pass' => 'pass', 
-    'db_name' => 'mydb', 
+    'db_user' => 'root', // change these to your MySQL info
+    'db_pass' => 'topmeme', 
+    'db_name' => 'omanko', 
     'db_host' => 'localhost', 
     
     // default pages
@@ -54,9 +54,29 @@ $hnngConf = array(
     'private_upload' => false, 
     'private_upload_key' => 'password', 
     
-    // anti flood
-    'shorten_requestspersec' => 2, 
-	'upload_requestspersec' => 2, 
+    // anti flood (per-ip)
+    'shorten_requestspersec' => 3, 
+	'upload_requestspersec' => 3, 
+
+	// anti flood cooldown for users that exceed the requests per sec limit
+	'shorten_cooldown' => 5,
+	'upload_cooldown' => 5,
+
+	// global rate limiter: if more than a certain amount of requests is sent 
+	// within a certain amount of time, a global cooldown will be triggered 
+	// and anyone trying to upload or shorten urls will see a heavy load error 
+	// message.
+	// this is a measure to prevent people flooding the site with a huge list of 
+	// proxies from wasting too much database or disk space before you notice 
+	// and ban them.
+	
+	'shorten_global_request_limit' => 20, 
+	'shorten_global_request_time' => 7, // seconds
+	'shorten_global_request_cooldown' => 60, // seconds
+
+	'upload_global_request_limit' => 10, 
+	'upload_global_request_time' => 7, 
+	'upload_global_request_cooldown' => 60, 
 
 	'debug' => false
 );
