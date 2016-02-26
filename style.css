@@ -1,50 +1,79 @@
+/* this css is a fucking mess, I just hacked together some stuff to 
+ * get the bootstrap look without bootstrap. I'd redesign but this looks 
+ * good enough */
+
+/* TODO: strip this down to the essentials */
+
 body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
     padding-top: 81px;
     padding-bottom: 20px;
+	padding-left: 0px;
+	padding-right: 0px;
     background-image: url(img/moeblob.jpg);
     background-repeat: repeat;
     background-attachment: fixed;
     background-position: left top;
     background-size: cover;
     color: #EEE;
+	text-align: center;
+	line-height: 20px;
 }
 
 a:link, 
 a:visited, 
 a:active {
     color: #96CEFF;
+	text-decoration: none;
 }
 
 a:hover {
     color: #88B9E3;
+	text-decoration: underline;
 }
 
-/* how do I avoid having to override any custom link styling for buttons? */
-a.btn-twitter:link, 
-a.btn-twitter:visited, 
-a.btn-twitter:active, 
-a.btn-facebook:link, 
-a.btn-facebook:visited, 
-a.btn-facebook:active, 
-a.btn-google-plus:link, 
-a.btn-google-plus:visited, 
-a.btn-google-plus:active, 
-a.btn-tumblr:link, 
-a.btn-tumblr:visited, 
-a.btn-tumblr:active{
-    color: #FFF;
+a.navbar-brand {
+	font-size: 18px;
 }
 
-a.btn-reddit:link, 
-a.btn-reddit:visited, 
-a.btn-reddit:active {
-    color: #000;
+h1 { font-size: 63px; }
+h2 { font-size: 30px; }
+h3 { font-size: 24px; }
+h4 { font-size: 18px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 500;
+	line-height: 1.1;
+}
+h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+h4, h5, h6 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+sub, sup {
+    position: relative;
+    font-size: 75%;
+    line-height: 0;
+    vertical-align: baseline;
+}
+
+.container {
+	padding: 0 15px;
 }
 
 /* limit the layout width on large screens */
 @media (min-width: 768px) {
     .container {
-        max-width: 730px;
+        max-width: 700px;
+		display: inline-block;
+		zoom: 1;
+		display*: inline;
     }
 }
 
@@ -52,20 +81,40 @@ a.btn-reddit:active {
     background: #333;
     background: rgba(0, 0, 0, 0.6);
     text-align: center;
+	border-radius: 6px;
+	margin-bottom: 30px;
+	padding: 48px 60px;
 }
 
-.social, 
+/* resize fonts for shitty mobile screens */
+@media (max-width: 450px) {
+	h1 { font-size: 40px; }
+	a.navbar-brand { display: none !important; }
+	.jumbotron { padding: 24px 30px; }
+}
+
+.jumbotron p {
+    margin-bottom: 15px;
+    font-size: 21px;
+    font-weight: 200;
+}
+
+.lead {
+	font-size: 21px;
+}
+
 .footer {
     padding-top: 10px;
     padding-bottom: 10px;
-}
-
-.footer {
     background: #333;
 }
 
 .smalltext-page p {
     font-size: 14px;
+}
+
+.text-left {
+	text-align: left;
 }
 
 .notfound-img-container {
@@ -83,4 +132,100 @@ a.btn-reddit:active {
 .hnng-img-container {
     position: relative;
     padding-top: 56.16%;
+}
+
+ul.nav {
+    overflow: auto;
+	list-style-type: none;
+    background-color: #222;
+	width: 100%;
+	top: 0;
+	position: fixed;
+	height: 50px;
+	white-space: nowrap;
+}
+
+ul.nav li {
+	float: left;
+	line-height: 20px;
+	vertical-align: center;
+}
+
+ul.nav a {
+	display: block;
+	color: #777;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+ul.nav a:hover {
+	color: #EEE;
+}
+
+.nav .active, .nav .active a {
+	background-color: #080808;
+	color: #FFF;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-control {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	display: block;
+	width: 100%;
+	height: 32px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #FFF;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+.btn {
+	 display: inline-block;
+	 text-align: center;
+	 font-weight: 400;
+	 text-align: center;
+	 white-space: nowrap;
+	 vertical-align: middle;
+	 border: 1px solid transparent;
+}
+
+.btn-lg, .btn-group-lg>.btn {
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+    border-radius: 6px;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.btn-success:hover { 
+	background-color: #4CA84C; 
+    border-color: #3c9e3c;
+}
+
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

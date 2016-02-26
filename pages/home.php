@@ -25,7 +25,7 @@ global $hnngConf;
 
 <h1>Shorten your URL</h1>
 <p class="lead">
-    Generate a hnng.moe short link and easily share it.
+    Generate a hnng.moe short link.
 </p>
 <form role="form" action="<?php echo $hnngConf['siteroot']; ?>/do" 
 	method="post" enctype="multipart/form-data">
