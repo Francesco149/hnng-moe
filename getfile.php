@@ -24,10 +24,10 @@ require_once hnngRoot . 'utils.php';
 $_GET = hnngSanitizeArray($_GET);
 
 $id = "";
-if (!empty($_GET['fileid']) || 
-	(isset($_GET['fileid']) && $_GET['fileid'] === '0')) {
+if (!empty($_GET['fileid']) ||
+    (isset($_GET['fileid']) && $_GET['fileid'] === '0')) {
 
-	$id = $_GET['fileid'];
+    $id = $_GET['fileid'];
 }
 
 $fileinfo = hnngGetFileInfoById($id);
@@ -40,40 +40,40 @@ if (!isset($fileinfo)) {
 }
 
 $filepath = hnngRoot . '/' . $hnngConf['upload_dir'] . '/' . $id;
-if ($fileinfo['mime_type'] === 'text/html' && 
-	empty($_GET['execute_unsafe_html'])) {
+if ($fileinfo['mime_type'] === 'text/html' &&
+    empty($_GET['execute_unsafe_html'])) {
 ?>
 
 <html lang="en">
 <body>
 <head>
-<link href="<?php echo $hnngConf['siteroot']; ?>/reset200802.css" 
-	rel="stylesheet">
+<link href="<?php echo $hnngConf['siteroot']; ?>/reset200802.css"
+    rel="stylesheet">
 <link href="<?php echo $hnngConf['siteroot']; ?>/moecode.css?t=<?php
-	echo time(); ?>" rel="stylesheet">                           
+    echo time(); ?>" rel="stylesheet">
 </head>
 <h1>HNNG.MOE - Warning!</h1>
 <p>
-You are trying to access a .html file. This can potentially execute malicious 
+You are trying to access a .html file. This can potentially execute malicious
 code, so please check the code below and continue only if you trust this file.
 </p>
 <p>
-&#8594; <a href="<?php echo $hnngConf['siteroot_short'] . '/f/' . $id . 
+&#8594; <a href="<?php echo $hnngConf['siteroot_short'] . '/f/' . $id .
 '/execute_unsafe_html=1'; ?>">Yes, I trust this file.</a>
 </p>
-<code><?php 
-	$html = file_get_contents($filepath);
-	echo htmlspecialchars($html); 
+<code><?php
+    $html = file_get_contents($filepath);
+    echo htmlspecialchars($html);
 ?></code>
 </body>
 
-<?php	
+<?php
 } else {
-	header('Content-type: ' . $fileinfo['mime_type']);
-	header('Content-Length: ' . filesize($filepath));
-	header('Content-Disposition: filename="' . 
-		$fileinfo['original_name'] . '"');
-	readfile($filepath);
+    header('Content-type: ' . $fileinfo['mime_type']);
+    header('Content-Length: ' . filesize($filepath));
+    header('Content-Disposition: filename="' .
+        $fileinfo['original_name'] . '"');
+    readfile($filepath);
 }
 
 ?>

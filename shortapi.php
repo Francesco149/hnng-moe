@@ -21,8 +21,8 @@ require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
-if ($hnngConf['manteinance'] && 
-	(empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey'])) {
+if ($hnngConf['manteinance'] &&
+    (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey'])) {
 
     die("The site is currently undergoing manteinance.");
 }
@@ -36,7 +36,7 @@ $result = hnngShortenUrl($url);
 $shortened = $result['url'];
 
 if ($result['status'] != 'OK') {
-    die($result['status'] . " If the problem persists, " . 
+    die($result['status'] . " If the problem persists, " .
         "the server might be experiencing some issues");
 }
 

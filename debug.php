@@ -15,7 +15,7 @@
 */
 
 if (!defined('hnngRoot')) {
-	define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
+    define('hnngRoot', realpath(dirname( __FILE__ )) . '/');
 }
 
 if (!defined('hnngAllowInclude')) {
@@ -26,16 +26,16 @@ if (!defined('hnngAllowInclude')) {
 require_once hnngRoot . 'conf.php';
 
 function horishet($errno, $errstr, $errfile, $errline) {
-	// this might throw warnings but it's ok we're just debugging and we 
-	// gotta make sure that we display the warnings whatever mime type we tried
-	// to set in headers
-	header_remove('Content-type');
-	header_remove('Content-Length');
-	header_remove('Content-Disposition');
-	header('Content-type: text/html');
-	throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+    // this might throw warnings but it's ok we're just debugging and we
+    // gotta make sure that we display the warnings whatever mime type we tried
+    // to set in headers
+    header_remove('Content-type');
+    header_remove('Content-Length');
+    header_remove('Content-Disposition');
+    header('Content-type: text/html');
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
 }
 if ($hnngConf['debug']) {
-	set_error_handler("horishet");
+    set_error_handler("horishet");
 }
 ?>

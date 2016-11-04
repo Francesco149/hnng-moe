@@ -28,8 +28,8 @@ if (!isset($_POST['hnngUrl'])) {
 <p class="lead">No url provided.</p>
 <p>
     <div class="hnng-img-container">
-        <img class="dynamicsize-img" 
-        	src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+        <img class="dynamicsize-img"
+            src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
     </div>
 </p>
 <p><small>If the issue persists, the server might be experiencing some issues.
@@ -39,18 +39,18 @@ if (!isset($_POST['hnngUrl'])) {
 else {
     $url = $_POST['hnngUrl'];
     $result = hnngRevealUrl($url);
-    
+
     if (!filter_var($result, FILTER_VALIDATE_URL)) {
 ?>
         <h1>Oreru&#126;</h1>
         <p class="lead"><?php echo $result; ?></p>
         <p>
             <div class="hnng-img-container">
-                <img class="dynamicsize-img" src="<?php 
-                	echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+                <img class="dynamicsize-img" src="<?php
+                    echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
             </div>
         </p>
-        <p><small>If the issue persists, the server might be experiencing some 
+        <p><small>If the issue persists, the server might be experiencing some
         issues.</small></p>
 <?php
     }
@@ -61,8 +61,8 @@ else {
         <form>
             <div class="form-group">
 <?php
-            echo '<input class="form-control" type="text" value="' . 
-            	$result . '">';
+            echo '<input class="form-control" type="text" value="' .
+                $result . '">';
 ?>
             </div>
         </form>

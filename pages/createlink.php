@@ -28,8 +28,8 @@ if (!isset($_POST['hnngUrl'])) {
 <p class="lead">No url provided.</p>
 <p>
     <div class="hnng-img-container">
-        <img class="dynamicsize-img" 
-        	src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+        <img class="dynamicsize-img"
+            src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
     </div>
 </p>
 <p><small>If the issue persists, the server might be experiencing some issues.
@@ -41,18 +41,18 @@ else {
     $result = hnngShortenUrl($url);
     $shortened = $result['url'];
     $deleteurl = $result['deletelink'];
-    
+
     if ($result['status'] != 'OK') {
 ?>
         <h1>Oreru&#126;</h1>
         <p class="lead"><?php echo $result['status']; ?></p>
         <p>
             <div class="hnng-img-container">
-                <img class="dynamicsize-img" 
-                	src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
+                <img class="dynamicsize-img"
+                    src="<?php echo $hnngConf['siteroot']; ?>/img/hnng.jpg">
             </div>
         </p>
-        <p><small>If the issue persists, the server might be experiencing some 
+        <p><small>If the issue persists, the server might be experiencing some
         issues.</small></p>
 <?php
     }
@@ -63,8 +63,8 @@ else {
         <form>
             <div class="form-group">
 <?php
-            echo '<input class="form-control" type="text" value="' . 
-            	$shortened . '">';
+            echo '<input class="form-control" type="text" value="' .
+                $shortened . '">';
 ?>
             </div>
         </form>

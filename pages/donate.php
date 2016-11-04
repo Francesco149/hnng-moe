@@ -16,21 +16,21 @@
 ?>
 <div class="smalltext-page text-left">
 <h1>Donate <i class="fa fa-heart"></i></h1>
-<p>Keeping hnng.moe up is not free (even though I'm doing it for the lulz), so 
-donations are very appreciated, as they would help 
-upgrading to a hosting service capable of handling higher bandwidth loads in 
+<p>Keeping hnng.moe up is not free (even though I'm doing it for the lulz), so
+donations are very appreciated, as they would help
+upgrading to a hosting service capable of handling higher bandwidth loads in
 case more people start using it.</p>
 <p>&nbsp;</p>
 <h2>Paypal:</h2>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="QP55UNGDPTWBY">
-<input type="image" 
-	src="https://www.paypalobjects.com/en_US/IT/i/btn/btn_donateCC_LG.gif" 
-	border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"
+<input type="image"
+    src="https://www.paypalobjects.com/en_US/IT/i/btn/btn_donateCC_LG.gif"
+    border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"
 >
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" 
-	width="1" height="1">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
+    width="1" height="1">
 </form>
 <p>&nbsp;</p>
 <h2>Bitcoin:</h2>

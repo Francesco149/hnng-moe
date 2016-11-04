@@ -29,17 +29,17 @@ $_GET = hnngSanitizeArray($_GET);
 $pagename = $hnngConf['default_page']; // fall back to home on empty page
 
 if (!empty($_GET['act'])) { // meh, this is redundant but it fixes shitty warns
-	$pagename = $_GET['act'];
+    $pagename = $_GET['act'];
 }
 
 if (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey']) {
-	// not a dev
-	if ($hnngConf['manteinance']) {
-    	$pagename = $hnngConf['manteinance_page'];
-	}
-	else if ($hnngConf['comingsoon']) {
-    	$pagename = $hnngConf['wip_page'];
-	}
+    // not a dev
+    if ($hnngConf['manteinance']) {
+        $pagename = $hnngConf['manteinance_page'];
+    }
+    else if ($hnngConf['comingsoon']) {
+        $pagename = $hnngConf['wip_page'];
+    }
 }
 
 if (!array_key_exists($pagename, $hnngPages)) {
@@ -58,22 +58,22 @@ function hnngPageActive($page) {
     switch ($page) {
         case $pagename:
             return true;
-            
+
         case $hnngConf['manteinance_page']:
         case $hnngConf['wip_page']:
             return $page == $hnngConf['default_page'];
     }
-    
+
     return false;
 }
 
 function hnngEchoPageLink($link, $text, $page) {
     $active = '';
-    
+
     if (hnngPageActive($page)) {
         $active = ' class="active"';
     }
-    
+
     echo '<li' . $active . '><a href="' . $link . '">' . $text . '</a></li>';
 }
 ?>

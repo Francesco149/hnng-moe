@@ -23,12 +23,12 @@ require_once hnngRoot . 'conf.php';
 
 function hnngEchoRobots() {
     global $hnngConf;
-    
-    if ($hnngConf['nofollow'] == true) { 
+
+    if ($hnngConf['nofollow'] == true) {
         echo '<meta name="robots" content="noindex, nofollow">';
         return;
-    } 
-    
+    }
+
     echo '<meta name="robots" content="noarchive">';
 }
 

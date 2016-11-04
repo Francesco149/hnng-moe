@@ -34,18 +34,18 @@ $fapiurl = $hnngConf['siteroot'] . '/upload_d.php';
 <p>&nbsp;</p>
 <p>The hnng.moe file upload API is located at</p>
 <pre><?php echo $fapiurl; ?></pre>
-<p>You will have to send a POST request and the file form value must be named 
+<p>You will have to send a POST request and the file form value must be named
 "file".</p>
-<p>The response will be formatted in JSON and will contain both the link to the 
+<p>The response will be formatted in JSON and will contain both the link to the
 file and the deletion link.
 If anything goes wrong, status will contain a description of the error.</p>
 <pre>{
-	"url":"http://hnng.moe/f/...",
-	"deletelink":"http://www.hnng.moe/deleteupload.php?key=...",
-	"status":"OK"
+    "url":"http://hnng.moe/f/...",
+    "deletelink":"http://www.hnng.moe/deleteupload.php?key=...",
+    "status":"OK"
 }</pre>
 <p>&nbsp;</p>
-<p>I made a webm video tutorial that explains how to set up ShareX for hnng.moe 
+<p>I made a webm video tutorial that explains how to set up ShareX for hnng.moe
 &#8594; <a target="_blank" href="http://hnng.moe/f/k">here</a>.</p>
 <p>You can get ShareX <a target="_blank" href="http://getsharex.com/">here</a>.
 </p>
@@ -82,7 +82,7 @@ If anything goes wrong, status will contain a description of the error.</p>
 }</pre>
 <p>&nbsp;</p>
 <h2>Tweetbot settings:</h2>
-<p>Go to Settings &#8594; Account Settings &#8594; URL Shortening &#8594; 
+<p>Go to Settings &#8594; Account Settings &#8594; URL Shortening &#8594;
 Custom and enter</p>
 <pre><?php echo $apiurl; ?>?url=%@</pre>
 </div>

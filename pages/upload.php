@@ -33,12 +33,12 @@ global $hnngConf;
         <input type="file" name="file" id="file" align="center">
     </div>
     <div class="form-group">
-        <input id="hnngSubmit" class="btn btn-lg btn-success" 
+        <input id="hnngSubmit" class="btn btn-lg btn-success"
             type="submit" name="shorten" value="Moe&#126;">
     </div>
 </form>
-<p><sub>You can also upload screenshots and files directly from your desktop 
-by setting up <a target="_blank" href="http://getsharex.com/">ShareX</a> 
-for hnng.moe. 
-Check out the <a href="<?php echo $hnngConf['siteroot']; ?>/api">API</a> for 
+<p><sub>You can also upload screenshots and files directly from your desktop
+by setting up <a target="_blank" href="http://getsharex.com/">ShareX</a>
+for hnng.moe.
+Check out the <a href="<?php echo $hnngConf['siteroot']; ?>/api">API</a> for
 the settings.</sub></p>

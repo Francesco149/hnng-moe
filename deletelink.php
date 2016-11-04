@@ -28,7 +28,7 @@ if (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey']) {
 
 $key = "";
 if (!empty($_GET['key'])) {
-	$key = $_GET['key'];
+    $key = $_GET['key'];
 }
 
 echo hnngDeleteUrl($key);

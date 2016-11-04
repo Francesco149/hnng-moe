@@ -22,15 +22,15 @@ require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
 $_GET = hnngSanitizeArray($_GET);
-if ($hnngConf['manteinance'] && (empty($_GET['devkey']) || 
-	$_GET['devkey'] != $hnngConf['devkey'])) {
+if ($hnngConf['manteinance'] && (empty($_GET['devkey']) ||
+    $_GET['devkey'] != $hnngConf['devkey'])) {
 
     die("The site is currently undergoing manteinance.");
 }
 
 $key = "";
 if (!empty($_GET['key'])) {
-	$key = $_GET['key'];
+    $key = $_GET['key'];
 }
 
 echo hnngDeleteUpload($key);

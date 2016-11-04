@@ -27,16 +27,16 @@ global $hnngConf;
 <p class="lead">
     Generate a hnng.moe short link.
 </p>
-<form role="form" action="<?php echo $hnngConf['siteroot']; ?>/do" 
-	method="post" enctype="multipart/form-data">
+<form role="form" action="<?php echo $hnngConf['siteroot']; ?>/do"
+    method="post" enctype="multipart/form-data">
     <div class="form-group">
         <input class="form-control" type="text" name="hnngUrl" value="">
     </div>
     <div class="form-group">
-        <input id="hnngSubmit" class="btn btn-lg btn-success" 
+        <input id="hnngSubmit" class="btn btn-lg btn-success"
             type="submit" name="shorten" value="Moe&#126;">
     </div>
 </form>
-<p><sub>If you're looking to share files, check out the 
+<p><sub>If you're looking to share files, check out the
 <a href="<?php echo $hnngConf['siteroot']; ?>/sharefiles">file uploader</a>.
 </sub></p>

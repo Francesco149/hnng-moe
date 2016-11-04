@@ -23,11 +23,12 @@ require_once hnngRoot . 'utils.php';
 
 $_GET = hnngSanitizeArray($_GET);
 $id = "";
-if (!empty($_GET['urlid']) || 
-	(isset($_GET['urlid']) && $_GET['urlid'] === '0')) {
+if (!empty($_GET['urlid']) ||
+    (isset($_GET['urlid']) && $_GET['urlid'] === '0')) {
 
-	$id = $_GET['urlid'];
+    $id = $_GET['urlid'];
 }
+
 $url = hnngGetUrlById($id);
 
 if (!isset($url)) {

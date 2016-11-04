@@ -27,21 +27,21 @@ if (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey']) {
 }
 
 if (!isset($_GET['time'])) {
-	echo json_encode(array());
-	exit();
+    echo json_encode(array());
+    exit();
 }
 
 $time = $_GET['time'];
 
 $lastid = "";
 if (isset($_GET['lastid'])) {
-	$lastid = $_GET['lastid'];
+    $lastid = $_GET['lastid'];
 }
 
 $time = date("Y-m-d\TH:i:s\Z", $time);
-$st = $db->prepare("SELECT id, original_name, time, deletekey " . 
-	"FROM hnng_uploads WHERE time >= :time AND id != :lastid " . 
-	"ORDER BY time ASC LIMIT 0 , 4");
+$st = $db->prepare("SELECT id, original_name, time, deletekey " .
+    "FROM hnng_uploads WHERE time >= :time AND id != :lastid " .
+    "ORDER BY time ASC LIMIT 0 , 4");
 $st->bindValue(':time', $time, PDO::PARAM_STR);
 $st->bindValue(':lastid', $lastid, PDO::PARAM_STR);
 $st->execute();

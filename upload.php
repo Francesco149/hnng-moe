@@ -21,22 +21,22 @@ require_once hnngRoot . 'dbmanager.php';
 require_once hnngRoot . 'conf.php';
 require_once hnngRoot . 'utils.php';
 
-if ($hnngConf['manteinance'] && 
-	(empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey'])) {
+if ($hnngConf['manteinance'] &&
+    (empty($_GET['devkey']) || $_GET['devkey'] != $hnngConf['devkey'])) {
 
     die("The site is currently undergoing manteinance.");
 }
 
 if($hnngConf['private_upload']) {
     $_POST = hnngSanitizeArray($_POST);
-    
+
     if ($_POST['key'] != $hnngConf['private_upload_key']) {
         die("Sorry, the uploader is private at the moment!");
     }
 }
 
 if (empty($_FILES['file'])) {
-	die("You didn't provide any file!");
+    die("You didn't provide any file!");
 }
 
 $result = hnngUploadFile($_FILES['file']);
