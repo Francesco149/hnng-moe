@@ -69,7 +69,14 @@ code, so please check the code below and continue only if you trust this file.
 
 <?php
 } else {
-    header('Content-type: ' . $fileinfo['mime_type']);
+    $enc = '';
+    $output = exec('file -i ' . hnngRoot . '/u/' . $id);
+    if (isset($output)) {
+        $ex = explode('charset=', $output);
+        $enc = isset($ex[1]) ? '; charset=' . $ex[1] : '';
+    }
+
+    header('Content-type: ' . $fileinfo['mime_type'] . $enc);
     header('Content-Length: ' . filesize($filepath));
     header('Content-Disposition: filename="' .
         $fileinfo['original_name'] . '"');
